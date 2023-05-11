@@ -3,6 +3,6 @@ from . import views
 
 urlpatterns = [
     path("", views.index, name = "index"),
-    path('datasets/', views.dataset, name="dataset"),
-    path('datainput/', views.upload_csv, name='upload_csv'),
+    path('<str:type>/datasets/', views.dataset, name="dataset"),
+    path('<str:type_>/<str:class_>/datainput/', views.upload_csv, name='upload_csv'),
 ]
