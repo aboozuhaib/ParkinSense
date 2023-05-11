@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkinSense</title>
+    <style>
+        body {
+          background-image: url('parkinsons-background.jpg');
+          background-repeat: no-repeat;
+          background-size: cover;
+          font-family: Arial, sans-serif;
+        }
+        h3 {
+          text-align: center;
+          font-size: 4rem;
+          color: white;
+          text-shadow: 2px 2px #000000;
+          margin-top: 8rem;
+        }
+        div {
+          display: flex;
+          justify-content: center;
+          margin-top: 2rem;
+        }
+        button {
+          background-color: #3b5998;
+          border: none;
+          color: white;
+          padding: 1rem 2rem;
+          margin: 0 1rem;
+          font-size: 1.2rem;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        button:hover {
+          background-color: #2c4377;
+        }
+      </style>
+</head>
+<body>
+    <h3 style="text-align: center;">Upload your data in csv file format</h3>
+    <div style="text-align: center;">
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="file" name="csv_file">
+      <br><br>
+      <input type="submit" value="Upload">
+    </form>
+         </div>
+</body>
+</html>
