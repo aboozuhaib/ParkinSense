@@ -102,14 +102,58 @@ def ml_(class_, csv_file, type_):
         stdc_individual_data = sc_x.transform(data_)
         individual_data_lda = lda.transform(stdc_individual_data)
 
-        # Use each model to make predictions on the test data
-        y_pred = ""
+        resp1 = ""
         for i, model in enumerate(data):
             model_name = f"{model}"
             y_pred = model.predict(individual_data_lda)
-            print(f"{model_name} predictions: {y_pred}")
-        return f"{y_pred}"
+            if type_ == "technician":
+                resp1 += f"<br/>{model_name}:{y_pred}"
+            else:
+                resp1 = f"Predicted value is {y_pred[0]}"
+                # print(f"{model_name} predictions: {y_pred}")
 
+        return resp1
+
+    elif class_ == "gait_swing":
+        data1 = pd.read_csv(os.path.join(settings.BASE_DIR, 'typo/pickle_files/Gait_Data___Arm_swing.csv'))
+        ds = data1.copy()
+        ds.drop(['PATNO','EVENT_ID','INFODT'], axis = 1, inplace = True)
+        temp_cols=ds.columns.tolist()
+        new_cols=temp_cols[1:] + temp_cols[0:1]
+        ds=ds[new_cols]
+        ds =ds.dropna()
+
+        x= ds.iloc[:, 0:-1]
+        y= ds.iloc[:, -1]
+        train_x, test_x , train_y, test_y = train_test_split(x, y, random_state=0, test_size=0.3)
+
+        # scaling
+        sc_x = StandardScaler()
+        train_x = sc_x.fit_transform(train_x)
+        test_x = sc_x.transform(test_x)
+
+        #LDA
+        lda = LinearDiscriminantAnalysis(n_components=1)
+        train_x_lda = lda.fit_transform(train_x, train_y)
+        test_x_lda = lda.transform(test_x)
+
+        with open(os.path.join(settings.BASE_DIR, 'typo/pickle_files/models_gaitarm.pkl'), 'rb') as file:
+            data = pickle.load(file)
+
+        stdc_individual_data = sc_x.transform(data_)
+        individual_data_lda = lda.transform(stdc_individual_data)
+
+        resp2 = ''
+        for i, model in enumerate(data):
+            model_name = f"{model}"
+            y_pred = model.predict(individual_data_lda)
+            if type_ == "technician":
+                resp2 += f"<br/>{model_name}:{y_pred}"
+            else:
+                resp2 = f"Predicted value is {y_pred[0]}"
+                # print(f"{model_name} predictions: {y_pred}")
+
+        return resp2
 
 def upload_csv(request, type_, class_):
     if request.method == 'POST' and request.FILES['csv_file']:
