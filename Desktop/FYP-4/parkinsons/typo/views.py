@@ -155,6 +155,34 @@ def ml_(class_, csv_file, type_):
 
         return resp2
 
+    elif class_ == "meanders_handpd":
+        ds = pd.read_csv(os.path.join(settings.BASE_DIR, 'typo/pickle_files/NewMeander.csv'))
+
+        x = ds.iloc[:, 0:-1]
+        y = ds.iloc[:, -1]
+        train_x, test_x, train_y, test_y = train_test_split(x, y, random_state=0, test_size=0.3)
+
+        # scaling
+        sc_x = StandardScaler()
+        train_x = sc_x.fit_transform(train_x)
+        test_x = sc_x.transform(test_x)
+
+        with open(os.path.join(settings.BASE_DIR, 'typo/pickle_files/models_meander.pkl'), 'rb') as f:
+            data = pickle.load(f)
+        stdc_individual_data = sc_x.transform(data_)
+
+        resp3 = ""
+        for i, model in enumerate(data):
+            model_name = f"{model}"
+            y_pred = model.predict(stdc_individual_data)
+            if type_ == "technician":
+                resp3 += f"<br/>{model_name}:{y_pred}"
+            else:
+                resp3 = f"Predicted value is {y_pred[0]}"
+                # print(f"{model_name} predictions: {y_pred}")
+
+        return resp3
+
 def upload_csv(request, type_, class_):
     if request.method == 'POST' and request.FILES['csv_file']:
         resp = ml_(class_, request.FILES['csv_file'], type_)
