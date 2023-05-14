@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,6 +30,11 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -54,7 +60,7 @@ ROOT_URLCONF = "parkinsons.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / 'templates'],
+        "DIRS": [BASE_DIR / 'templates'], 
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
