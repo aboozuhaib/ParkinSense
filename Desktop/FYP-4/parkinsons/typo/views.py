@@ -56,10 +56,12 @@ def ml_(class_, csv_file, type_):
 
     if class_ == "replicated_accoustics":
         feature_check(class_, data__)
-        dataset = pd.read_csv(os.path.join(settings.BASE_DIR, 'typo/pickle_files/ReplicatedAcousticFeatures csv.csv'))
+        dataset = pd.read_csv(os.path.join(
+            settings.BASE_DIR, 'typo/pickle_files/ReplicatedAcousticFeatures csv.csv'))
         x = dataset.iloc[:, 0:-1]
         y = dataset.iloc[:, -1]
-        train_x, test_x, train_y, test_y = train_test_split(x, y, random_state=0, test_size=0.2)
+        train_x, test_x, train_y, test_y = train_test_split(
+            x, y, random_state=0, test_size=0.2)
         sc_x = StandardScaler()
         train_x = sc_x.fit_transform(train_x)
         print(data_)
@@ -68,18 +70,24 @@ def ml_(class_, csv_file, type_):
             data = pickle.load(f)
             for i, model in enumerate(data):
                 model_name = f"{model}"
-                models.append(model_name)
+                models.append(model_name.split("(")[0])
                 stdc_individual_data = sc_x.transform(data_)
                 y_pred = model.predict(stdc_individual_data)
-                if type_ == "technician":
-                    resp += f"<br/>{model_name}:{y_pred}"
+            if type_ == "technician":
+                resp = models
+            else:
+                if y_pred[0] == '1':
+                    resp =  'Patient'
                 else:
-                    resp = f"Predicted value is {y_pred[0]}"
+                    resp =  'Healthy Control'
         return resp
+
     elif class_ == "spiral_handpd":
-        ds = pd.read_csv(os.path.join(settings.BASE_DIR, 'typo/pickle_files/NewSpiral.csv'))
+        ds = pd.read_csv(os.path.join(settings.BASE_DIR,
+                         'typo/pickle_files/NewSpiral.csv'))
         ds1 = ds.copy()
-        ds1.drop(['_ID_EXAM', 'IMAGE_NAME', 'ID_PATIENT', 'GENDER', 'RIGH/LEFT-HANDED', 'AGE'], axis=1, inplace=True)
+        ds1.drop(['_ID_EXAM', 'IMAGE_NAME', 'ID_PATIENT', 'GENDER',
+                 'RIGH/LEFT-HANDED', 'AGE'], axis=1, inplace=True)
         temp_cols = ds1.columns.tolist()
         new_cols = temp_cols[1:] + temp_cols[0:1]
         ds1 = ds1[new_cols]
@@ -87,7 +95,8 @@ def ml_(class_, csv_file, type_):
 
         x = ds.iloc[:, 0:-1]
         y = ds.iloc[:, -1]
-        train_x, test_x, train_y, test_y = train_test_split(x, y, random_state=0, test_size=0.3)
+        train_x, test_x, train_y, test_y = train_test_split(
+            x, y, random_state=0, test_size=0.3)
 
         # scaling
         sc_x = StandardScaler()
@@ -105,34 +114,39 @@ def ml_(class_, csv_file, type_):
         resp1 = ""
         for i, model in enumerate(data):
             model_name = f"{model}"
-            models.append(model_name)
+            models.append(model_name.split("(")[0])
             y_pred = model.predict(individual_data_lda)
-            if type_ == "technician":
-                resp1 += f"<br/>{model_name}:{y_pred}"
+        if type_ == "technician":
+            resp1 =  models
+        else:
+            if y_pred[0] == '2':
+                resp1 =  'Patient'
             else:
-                resp1 = f"Predicted value is {y_pred[0]}"
+                resp1 =  'Healthy Control'
 
         return resp1
 
     elif class_ == "gait_swing":
-        data1 = pd.read_csv(os.path.join(settings.BASE_DIR, 'typo/pickle_files/Gait_Data___Arm_swing.csv'))
+        data1 = pd.read_csv(os.path.join(settings.BASE_DIR,
+                            'typo/pickle_files/Gait_Data___Arm_swing.csv'))
         ds = data1.copy()
-        ds.drop(['PATNO','EVENT_ID','INFODT'], axis = 1, inplace = True)
-        temp_cols=ds.columns.tolist()
-        new_cols=temp_cols[1:] + temp_cols[0:1]
-        ds=ds[new_cols]
-        ds =ds.dropna()
+        ds.drop(['PATNO', 'EVENT_ID', 'INFODT'], axis=1, inplace=True)
+        temp_cols = ds.columns.tolist()
+        new_cols = temp_cols[1:] + temp_cols[0:1]
+        ds = ds[new_cols]
+        ds = ds.dropna()
 
-        x= ds.iloc[:, 0:-1]
-        y= ds.iloc[:, -1]
-        train_x, test_x , train_y, test_y = train_test_split(x, y, random_state=0, test_size=0.3)
+        x = ds.iloc[:, 0:-1]
+        y = ds.iloc[:, -1]
+        train_x, test_x, train_y, test_y = train_test_split(
+            x, y, random_state=0, test_size=0.3)
 
         # scaling
         sc_x = StandardScaler()
         train_x = sc_x.fit_transform(train_x)
         test_x = sc_x.transform(test_x)
 
-        #LDA
+        # LDA
         lda = LinearDiscriminantAnalysis(n_components=1)
         train_x_lda = lda.fit_transform(train_x, train_y)
         test_x_lda = lda.transform(test_x)
@@ -146,21 +160,26 @@ def ml_(class_, csv_file, type_):
         resp2 = ''
         for i, model in enumerate(data):
             model_name = f"{model}"
-            models.append(model_name)
+            models.append(model_name.split("(")[0])
             y_pred = model.predict(individual_data_lda)
-            if type_ == "technician":
-                resp2 += f"<br/>{model_name}:{y_pred}"
+        if type_ == "technician":
+            resp2 =  models
+        else:
+            if y_pred[0] == '1':
+                resp2 =  'Patient'
             else:
-                resp2 = f"Predicted value is {y_pred[0]}"
+                resp2 =  'Healthy Control'
 
         return resp2
 
     elif class_ == "meanders_handpd":
-        ds = pd.read_csv(os.path.join(settings.BASE_DIR, 'typo/pickle_files/NewMeander.csv'))
+        ds = pd.read_csv(os.path.join(settings.BASE_DIR,
+                         'typo/pickle_files/NewMeander.csv'))
 
         x = ds.iloc[:, 0:-1]
         y = ds.iloc[:, -1]
-        train_x, test_x, train_y, test_y = train_test_split(x, y, random_state=0, test_size=0.3)
+        train_x, test_x, train_y, test_y = train_test_split(
+            x, y, random_state=0, test_size=0.3)
 
         # scaling
         sc_x = StandardScaler()
@@ -174,21 +193,26 @@ def ml_(class_, csv_file, type_):
         resp3 = ""
         for i, model in enumerate(data):
             model_name = f"{model}"
-            models.append(model_name)
+            models.append(model_name.split("(")[0])
             y_pred = model.predict(stdc_individual_data)
-            if type_ == "technician":
-                resp3 += f"<br/>{model_name}:{y_pred}"
+        if type_ == "technician":
+            resp3 =  models
+        else:
+            if y_pred[0] == '2':
+                resp3 =  'Patient'
             else:
-                resp3 = f"Predicted value is {y_pred[0]}"
+                resp3 =  'Healthy Control'
 
         return resp3
-    
+
     elif class_ == "voice_data":
-        ds = pd.read_csv(os.path.join(settings.BASE_DIR, 'typo/pickle_files/PD VOICE - PD VOICE.csv'))
+        ds = pd.read_csv(os.path.join(settings.BASE_DIR,
+                         'typo/pickle_files/PD VOICE - PD VOICE.csv'))
 
         x = ds.iloc[:, 0:-1]
         y = ds.iloc[:, -1]
-        train_x, test_x, train_y, test_y = train_test_split(x, y, random_state=0, test_size=0.3)
+        train_x, test_x, train_y, test_y = train_test_split(
+            x, y, random_state=0, test_size=0.3)
 
         # scaling
         sc_x = StandardScaler()
@@ -202,17 +226,22 @@ def ml_(class_, csv_file, type_):
         resp4 = ""
         for i, model in enumerate(data):
             model_name = f"{model}"
+            models.append(model_name.split("(")[0])
             y_pred = model.predict(stdc_individual_data)
-            if type_ == "technician":
-                resp4 += f"<br/>{model_name}:{y_pred}"
+        if type_ == "technician":
+            resp4 =  models
+        else:
+            if y_pred[0] == '1':
+                resp4 =  'Patient'
             else:
-                resp4 = f"Predicted value is {y_pred[0]}"
+                resp4 =  'Healthy Control'
 
         return resp4
+
 
 def upload_csv(request, type_, class_):
     if request.method == 'POST' and request.FILES['csv_file']:
         resp = ml_(class_, request.FILES['csv_file'], type_)
-        return render(request, 'model.html',{"response":resp},)
+        return render(request, 'model.html', {"response": resp, "type_": type_})
     else:
         return render(request, 'upload_csv.html')

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Analysis</title>
     {% load static %}
     <style>
         * {
@@ -67,7 +67,7 @@
           .left-half {
             width: 50%;
             padding-left: 150px;
-            padding-top: 20px;
+            padding-top: 200px;
           }
     
           .right-half {
@@ -99,8 +99,20 @@
         <div class="content">
             <div class="left-half">
                 <h1>Analysis summary</h1>
-                {{response}}
+                {% if type_ == 'physician' %}
+                  After performing validation on the test data, it has been concluded that the individual has been identified as a {{response}}
+              {% endif %}
+                {% if type_ == 'technician' %}
+                  In the analysis, we trained and tested 8 different machine learning models on this dataset. The eight models used were Support Vector Machine(SVM), Perceptron, Decision Tree, Naive Bayes, Logistic Regression, Random Forest, K-Nearest Neighbour(KNN), Multi-layer Perceptron(MLP) models. <br> The dataset was split into a training set and testing set with 80% of the data used for training and 20% used for testing. The accuracy of each model was evaluated on the testing set. <br> The results of the analysis are as follows:
+                
+                <ol>
+                {%for model in response%}
+                  <li>{{ model }}</li>
+                {% endfor %}
+              </ol>
+              {% endif %}
             </div>
+
             <div class="right-half">
                 <div class="clipimage">
                   <img src="{% static 'Analysis-pana.png' %}" alt="My Image">
