@@ -5,14 +5,108 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    {% load static %}
+    <style>
+        * {
+            box-sizing: border-box;
+          }
+          
+          body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f7725b;
+            height: 100%;
+          }
+          
+          .container {
+            margin: 40px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+          }
+          
+          nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 50px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+          }
+          
+          .product-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding-left: 10px;
+            margin: 0;
+          }
+          
+          ul {
+            display: flex;
+            justify-content: flex-end;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+          }
+          
+          li {
+            margin: 0 10px;
+          }
+          
+          a {
+            text-decoration: none;
+            color: #333;
+          }
+          .content {
+            display: flex;
+            justify-content: space-between;
+          }
+    
+          .left-half {
+            width: 50%;
+            padding-left: 150px;
+            padding-top: 20px;
+          }
+    
+          .right-half {
+            width: 50%;
+          }
+    
+          .clipimage img {
+            max-width: 90%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+          }
+          
+          .left-half h1{
+            font-size: 40px;
+          }
+    </style>
 </head>
 <body>
-    <h1>Predictions:</h1>
-<ul>
-{% for prediction in predictions %}
-    <li>{{ prediction }}</li>
-{% endfor %}
-</ul>
-
+    <div class="container">
+        <nav>
+			<h1 class="product-name">ParkinSenze</h1>
+			<ul>
+				<li><a href="#">Home</a></li>
+				<li><a href="#">About</a></li>
+				<li><a href="#">Contact Us</a></li>
+			</ul>
+		</nav>
+        <div class="content">
+            <div class="left-half">
+                <h1>Analysis summary</h1>
+                {{response}}
+            </div>
+            <div class="right-half">
+                <div class="clipimage">
+                  <img src="{% static 'Analysis-pana.png' %}" alt="My Image">
+                </div>
+              </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -5,56 +5,162 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dataset</title>
+    {% load static %}
     <style>
-        body {
-          background-image: url('background-image.jpg');
-          background-size: cover;
-        }
-  
-        h1 {
-          font-size: 3rem;
-          text-align: center;
-          margin-top: 50px;
-          color: #fff;
-          text-shadow: 2px 2px #000;
-        }
-  
-        .button-container {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: center;
-          margin-top: 50px;
-        }
-  
-        button {
-          padding: 10px 20px;
-          margin: 10px;
-          font-size: 1.2rem;
-          background-color: #fff;
-          color: #000;
-          border: none;
-          border-radius: 5px;
-          box-shadow: 2px 2px #000;
-          cursor: pointer;
-        }
-  
-        button:hover {
-          background-color: #000;
-          color: #fff;
-        }
+
+      * {
+        box-sizing: border-box;
+      }
+      
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f7725b;
+        height: 100%;
+      }
+      
+      .container {
+        margin: 40px;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+      }
+      
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 50px;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+      }
+      
+      .product-name {
+        font-size: 1.2rem;
+        font-weight: bold;
+        padding-left: 10px;
+        margin: 0;
+      }
+      
+      ul {
+        display: flex;
+        justify-content: flex-end;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      
+      li {
+        margin: 0 10px;
+      }
+      
+      a {
+        text-decoration: none;
+        color: #333;
+      }
+      .content {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .left-half {
+        width: 50%;
+        padding-left: 150px;
+        padding-top: 20px;
+      }
+
+      .right-half {
+        width: 50%;
+      }
+
+      .clipimage img {
+        max-width: 90%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+      }
+      
+      .left-half h1{
+        font-size: 40px;
+        padding-left: 80px;
+      }
+
+      .datasets {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2rem;
+      }
+      
+      .dataset {
+        width: 100%;
+        padding: 2rem;
+        border: 1px solid #ccc;
+        border-radius: 1rem;
+        text-align: center;
+        box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+      }
+      
+      .btn {
+        display: inline-block;
+        border: none;
+        padding: 10px 20px;
+        font-size: 18px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        background-color: #000;
+        color: #fff;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border-radius: 10px;
+      }
+      
+      .btn:hover {
+        background-color: #fff;
+        color: #000;
+      }
+
       </style>
 </head>
 <body>
-    
-    <h1>Which type of data you have?</h1>
-    <div class="button-container">
-      <button onclick="location.href='/{{ type }}/replicated_accoustics/datainput'">Replicated Acoustics</button>
-      <button onclick="location.href='/{{ type }}/gait_swing/datainput'">Gait Swing</button>
-      <button onclick="location.href='/{{ type }}/voice_data/datainput'">Voice Data</button>
-      <button onclick="location.href='/{{ type }}/spiral_handpd/datainput'">Spiral HandPD</button>
-      <button onclick="location.href='/{{ type }}/meanders_handpd/datainput'">Meanders HandPD</button>
-    </div>
-
-
+  <div class="container">
+    <nav>
+			<h1 class="product-name">ParkinSenze</h1>
+			<ul>
+				<li><a href="#">Home</a></li>
+				<li><a href="#">About</a></li>
+				<li><a href="#">Contact Us</a></li>
+			</ul>
+		</nav>
+    <div class="content">
+      <div class="left-half">
+          <h1>What type of data do you have?</h1>
+          <div class="datasets">
+            <div class="dataset">
+              <a href="/{{ type }}/spiral_handpd/datainput" class="btn">Spiral Data</a>
+            </div>
+            <div class="dataset">
+              <a href="/{{ type }}/meanders_handpd/datainput" class="btn">Meanders Data</a>
+            </div>
+            <div class="dataset">
+              <a href="/{{ type }}/gait_swing/datainput" class="btn">Gait Arm Swing</a>
+            </div>
+            <div class="dataset">
+              <a href="/{{ type }}/replicated_accoustics/datainput" class="btn">Acoustic Features</a>
+            </div>
+            <div class="dataset">
+              <a href="/{{ type }}/voice_data/datainput" class="btn">Biomedical voice measurements</a>
+            </div>
+          </div>
+      </div>
+      <div class="right-half">
+        <div class="clipimage">
+          <img src="{% static 'Data extraction-pana.png' %}" alt="My Image">
+        </div>
+      </div>
+  </div>
 </body>
 </html>

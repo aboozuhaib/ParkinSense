@@ -52,6 +52,8 @@ def ml_(class_, csv_file, type_):
     data__ = list(reader)
     data_ = np.array([float(_) for _ in data__[1]]).reshape(1, -1)
 
+    models = []
+
     if class_ == "replicated_accoustics":
         feature_check(class_, data__)
         dataset = pd.read_csv(os.path.join(settings.BASE_DIR, 'typo/pickle_files/ReplicatedAcousticFeatures csv.csv'))
@@ -66,15 +68,13 @@ def ml_(class_, csv_file, type_):
             data = pickle.load(f)
             for i, model in enumerate(data):
                 model_name = f"{model}"
-                # print(type(data_set))
+                models.append(model_name)
                 stdc_individual_data = sc_x.transform(data_)
                 y_pred = model.predict(stdc_individual_data)
                 if type_ == "technician":
                     resp += f"<br/>{model_name}:{y_pred}"
                 else:
                     resp = f"Predicted value is {y_pred[0]}"
-                    # print(f"{model_name} predictions: {y_pred}")
-
         return resp
     elif class_ == "spiral_handpd":
         ds = pd.read_csv(os.path.join(settings.BASE_DIR, 'typo/pickle_files/NewSpiral.csv'))
@@ -105,12 +105,12 @@ def ml_(class_, csv_file, type_):
         resp1 = ""
         for i, model in enumerate(data):
             model_name = f"{model}"
+            models.append(model_name)
             y_pred = model.predict(individual_data_lda)
             if type_ == "technician":
                 resp1 += f"<br/>{model_name}:{y_pred}"
             else:
                 resp1 = f"Predicted value is {y_pred[0]}"
-                # print(f"{model_name} predictions: {y_pred}")
 
         return resp1
 
@@ -146,12 +146,12 @@ def ml_(class_, csv_file, type_):
         resp2 = ''
         for i, model in enumerate(data):
             model_name = f"{model}"
+            models.append(model_name)
             y_pred = model.predict(individual_data_lda)
             if type_ == "technician":
                 resp2 += f"<br/>{model_name}:{y_pred}"
             else:
                 resp2 = f"Predicted value is {y_pred[0]}"
-                # print(f"{model_name} predictions: {y_pred}")
 
         return resp2
 
@@ -174,12 +174,12 @@ def ml_(class_, csv_file, type_):
         resp3 = ""
         for i, model in enumerate(data):
             model_name = f"{model}"
+            models.append(model_name)
             y_pred = model.predict(stdc_individual_data)
             if type_ == "technician":
                 resp3 += f"<br/>{model_name}:{y_pred}"
             else:
                 resp3 = f"Predicted value is {y_pred[0]}"
-                # print(f"{model_name} predictions: {y_pred}")
 
         return resp3
     
@@ -207,13 +207,12 @@ def ml_(class_, csv_file, type_):
                 resp4 += f"<br/>{model_name}:{y_pred}"
             else:
                 resp4 = f"Predicted value is {y_pred[0]}"
-                # print(f"{model_name} predictions: {y_pred}")
 
         return resp4
 
 def upload_csv(request, type_, class_):
     if request.method == 'POST' and request.FILES['csv_file']:
         resp = ml_(class_, request.FILES['csv_file'], type_)
-        return HttpResponse(resp)
+        return render(request, 'model.html',{"response":resp},)
     else:
         return render(request, 'upload_csv.html')
