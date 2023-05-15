@@ -53,6 +53,7 @@ def ml_(class_, csv_file, type_):
     data_ = np.array([float(_) for _ in data__[1]]).reshape(1, -1)
 
     models = []
+    models_acc = []
 
     if class_ == "replicated_accoustics":
         feature_check(class_, data__)
@@ -66,21 +67,29 @@ def ml_(class_, csv_file, type_):
         train_x = sc_x.fit_transform(train_x)
         print(data_)
         resp = ""
-        with open(os.path.join(settings.BASE_DIR, 'typo/pickle_files/models_replicatedacoustics.pkl'), 'rb') as f:
+        resp_acc = ""
+        with open(os.path.join(settings.BASE_DIR, 'typo/pickle_files/models_opt_repacoustics.pkl'), 'rb') as f:
             data = pickle.load(f)
+        with open(os.path.join(settings.BASE_DIR, 'typo/pickle_files/accuracy_opt_repacoustics.pkl'), 'rb') as f:
+            data_acc = pickle.load(f)
             for i, model in enumerate(data):
                 model_name = f"{model}"
                 models.append(model_name.split("(")[0])
                 stdc_individual_data = sc_x.transform(data_)
                 y_pred = model.predict(stdc_individual_data)
+            for accuracy in enumerate(data_acc):
+                x = f"{accuracy}"
+                y = round(float(x.strip().strip(')').split(',')[1]), 5) * 100
+                models_acc .append(y)
             if type_ == "technician":
                 resp = models
+                resp_acc = models_acc
             else:
                 if y_pred[0] == '1':
                     resp =  'Patient'
                 else:
                     resp =  'Healthy Control'
-        return resp
+        return resp, resp_acc
 
     elif class_ == "spiral_handpd":
         ds = pd.read_csv(os.path.join(settings.BASE_DIR,
@@ -106,25 +115,33 @@ def ml_(class_, csv_file, type_):
         train_x_lda = lda.fit_transform(train_x, train_y)
         test_x_lda = lda.transform(test_x)
 
-        with open(os.path.join(settings.BASE_DIR, 'typo/pickle_files/models_spiralpd.pkl'), 'rb') as f:
+        with open(os.path.join(settings.BASE_DIR, 'typo/pickle_files/models_opt_spiral.pkl'), 'rb') as f:
             data = pickle.load(f)
+        with open(os.path.join(settings.BASE_DIR, 'typo/pickle_files/accuracy_opt_spiral.pkl'), 'rb') as file:
+            data_acc = pickle.load(file)
         stdc_individual_data = sc_x.transform(data_)
         individual_data_lda = lda.transform(stdc_individual_data)
 
         resp1 = ""
+        resp_acc1 = ""
         for i, model in enumerate(data):
             model_name = f"{model}"
             models.append(model_name.split("(")[0])
             y_pred = model.predict(individual_data_lda)
+        for accuracy in enumerate(data_acc):
+                x = f"{accuracy}"
+                y = round(float(x.strip().strip(')').split(',')[1]), 5) * 100
+                models_acc .append(y)
         if type_ == "technician":
             resp1 =  models
+            resp_acc1 = models_acc
         else:
             if y_pred[0] == '2':
                 resp1 =  'Patient'
             else:
                 resp1 =  'Healthy Control'
 
-        return resp1
+        return resp1,resp_acc1
 
     elif class_ == "gait_swing":
         data1 = pd.read_csv(os.path.join(settings.BASE_DIR,
@@ -146,31 +163,34 @@ def ml_(class_, csv_file, type_):
         train_x = sc_x.fit_transform(train_x)
         test_x = sc_x.transform(test_x)
 
-        # LDA
-        lda = LinearDiscriminantAnalysis(n_components=1)
-        train_x_lda = lda.fit_transform(train_x, train_y)
-        test_x_lda = lda.transform(test_x)
-
-        with open(os.path.join(settings.BASE_DIR, 'typo/pickle_files/models_gaitarm.pkl'), 'rb') as file:
+        with open(os.path.join(settings.BASE_DIR, 'typo/pickle_files/models_opt_gait.pkl'), 'rb') as file:
             data = pickle.load(file)
+        with open(os.path.join(settings.BASE_DIR, 'typo/pickle_files/accuracy_opt_gait.pkl'), 'rb') as file:
+            data_acc = pickle.load(file)
 
         stdc_individual_data = sc_x.transform(data_)
-        individual_data_lda = lda.transform(stdc_individual_data)
+        # individual_data_lda = lda.transform(stdc_individual_data)
 
         resp2 = ''
+        resp_acc2 = ''
         for i, model in enumerate(data):
             model_name = f"{model}"
             models.append(model_name.split("(")[0])
-            y_pred = model.predict(individual_data_lda)
+            y_pred = model.predict(stdc_individual_data)
+        for accuracy in enumerate(data_acc):
+                x = f"{accuracy}"
+                y = round(float(x.strip().strip(')').split(',')[1]), 5) * 100
+                models_acc .append(y)
         if type_ == "technician":
             resp2 =  models
+            resp_acc2 = models_acc
         else:
             if y_pred[0] == '1':
                 resp2 =  'Patient'
             else:
                 resp2 =  'Healthy Control'
 
-        return resp2
+        return resp2,resp_acc2
 
     elif class_ == "meanders_handpd":
         ds = pd.read_csv(os.path.join(settings.BASE_DIR,
@@ -186,24 +206,32 @@ def ml_(class_, csv_file, type_):
         train_x = sc_x.fit_transform(train_x)
         test_x = sc_x.transform(test_x)
 
-        with open(os.path.join(settings.BASE_DIR, 'typo/pickle_files/models_meander.pkl'), 'rb') as f:
+        with open(os.path.join(settings.BASE_DIR, 'typo/pickle_files/models_opt_meander.pkl'), 'rb') as f:
             data = pickle.load(f)
+        with open(os.path.join(settings.BASE_DIR, 'typo/pickle_files/accuracy_opt_meander.pkl'), 'rb') as f:
+            data_acc = pickle.load(f)
         stdc_individual_data = sc_x.transform(data_)
 
         resp3 = ""
+        resp_acc3 = ''
         for i, model in enumerate(data):
             model_name = f"{model}"
             models.append(model_name.split("(")[0])
             y_pred = model.predict(stdc_individual_data)
+        for accuracy in enumerate(data_acc):
+                x = f"{accuracy}"
+                y = round(float(x.strip().strip(')').split(',')[1]), 5) * 100
+                models_acc .append(y)
         if type_ == "technician":
             resp3 =  models
+            resp_acc3 = models_acc
         else:
             if y_pred[0] == '2':
                 resp3 =  'Patient'
             else:
                 resp3 =  'Healthy Control'
 
-        return resp3
+        return resp3, resp_acc3
 
     elif class_ == "voice_data":
         ds = pd.read_csv(os.path.join(settings.BASE_DIR,
@@ -219,29 +247,37 @@ def ml_(class_, csv_file, type_):
         train_x = sc_x.fit_transform(train_x)
         test_x = sc_x.transform(test_x)
 
-        with open(os.path.join(settings.BASE_DIR, 'typo/pickle_files/models_voice.pkl'), 'rb') as f:
+        with open(os.path.join(settings.BASE_DIR, 'typo/pickle_files/models_opt_voice.pkl'), 'rb') as f:
             data = pickle.load(f)
+        with open(os.path.join(settings.BASE_DIR, 'typo/pickle_files/accuracy_opt_voice.pkl'), 'rb') as f:
+            data_acc = pickle.load(f)
         stdc_individual_data = sc_x.transform(data_)
 
         resp4 = ""
+        resp_acc4 = ''
         for i, model in enumerate(data):
             model_name = f"{model}"
             models.append(model_name.split("(")[0])
             y_pred = model.predict(stdc_individual_data)
+        for accuracy in enumerate(data_acc):
+                x = f"{accuracy}"
+                y = round(float(x.strip().strip(')').split(',')[1]), 5) * 100
+                models_acc .append(y)
         if type_ == "technician":
             resp4 =  models
+            resp_acc4 = models_acc
         else:
             if y_pred[0] == '1':
                 resp4 =  'Patient'
             else:
                 resp4 =  'Healthy Control'
 
-        return resp4
+        return resp4, resp_acc4
 
 
 def upload_csv(request, type_, class_):
     if request.method == 'POST' and request.FILES['csv_file']:
-        resp = ml_(class_, request.FILES['csv_file'], type_)
-        return render(request, 'model.html', {"response": resp, "type_": type_})
+        resp, resp_acc = ml_(class_, request.FILES['csv_file'], type_)
+        return render(request, 'model.html', {"response": resp, "type_": type_, "accuracy": resp_acc,})
     else:
         return render(request, 'upload_csv.html')

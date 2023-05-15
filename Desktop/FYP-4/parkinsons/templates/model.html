@@ -107,7 +107,9 @@
                 
                 <ol>
                 {%for model in response%}
-                  <li>{{ model }}</li>
+                {% with index=forloop.counter0|add:1 %}
+                  <li>{{ model }} {{ accuracy|slice:index|last }}</li>
+                {% endwith %}
                 {% endfor %}
               </ol>
               {% endif %}
