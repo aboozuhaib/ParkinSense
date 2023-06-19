@@ -84,6 +84,15 @@
           .left-half h1{
             font-size: 40px;
           }
+
+          .left-half p{
+            font-size: 20px;
+          }
+
+          .left-half li{
+            font-size: 25px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+          }
     </style>
 </head>
 <body>
@@ -91,24 +100,30 @@
         <nav>
 			<h1 class="product-name">ParkinSenze</h1>
 			<ul>
-				<li><a href="#">Home</a></li>
-				<li><a href="#">About</a></li>
-				<li><a href="#">Contact Us</a></li>
+				<li><a href="{% url 'index' %}">Home</a></li>
+				<li><a href="{% url 'about' %}">About</a></li>
+				<li><a href="mailto:aboozuhaibclt@gmail.com">Contact Us</a></li>
 			</ul>
 		</nav>
         <div class="content">
             <div class="left-half">
                 <h1>Analysis summary</h1>
                 {% if type_ == 'physician' %}
-                  After performing validation on the test data, it has been concluded that the individual has been identified as a {{response}}
+                  {% if response == 'Patient' %}
+                  <p>Based on the evaluation, it has been determined that there are indications of Parkinson's disease. Further tests and consultations are recommended to confirm the diagnosis and determine the appropriate treatment options. The healthcare provider will discuss the findings and next steps with the patient.</p>
+                  {% endif %}
+                  {% if response == 'Healthy' %}
+                  <p>Based on the evaluation, no indications of Parkinson's disease have been identified at this time. No further action is required, but regular check-ups and healthy lifestyle practices are advised to maintain overall well-being. The healthcare provider will continue to monitor the patient's health status.</p>
+                  {% endif %}
               {% endif %}
                 {% if type_ == 'technician' %}
-                  In the analysis, we trained and tested 8 different machine learning models on this dataset. The eight models used were Support Vector Machine(SVM), Perceptron, Decision Tree, Naive Bayes, Logistic Regression, Random Forest, K-Nearest Neighbour(KNN), Multi-layer Perceptron(MLP) models. <br> The dataset was split into a training set and testing set with 80% of the data used for training and 20% used for testing. The accuracy of each model was evaluated on the testing set. <br> The results of the analysis are as follows:
+                  <p>
+                  In the analysis, we trained and tested 8 different machine learning models on this dataset. The eight models used were Support Vector Machine(SVM), Perceptron, Decision Tree, Naive Bayes, Logistic Regression, Random Forest, K-Nearest Neighbour(KNN), Multi-layer Perceptron(MLP) models. <br> The dataset was split into a training set and testing set with 80% of the data used for training and 20% used for testing. The accuracy of each model was evaluated on the testing set. <br> The results of the analysis are as follows:</p>
                 
                 <ol>
                 {%for model in response%}
                 {% with index=forloop.counter0|add:1 %}
-                  <li>{{ model }} {{ accuracy|slice:index|last }}</li>
+                  <li>{{ model }} - {{ accuracy|slice:index|last }}</li>
                 {% endwith %}
                 {% endfor %}
               </ol>

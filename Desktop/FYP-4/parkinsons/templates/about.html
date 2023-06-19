@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About</title>
+    {% load static %}
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f7725b;
+        height: 100%;
+      }
+      
+      .container {
+        margin: 40px;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+      }
+      
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 50px;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+      }
+      
+      .product-name {
+        font-size: 1.2rem;
+        font-weight: bold;
+        padding-left: 10px;
+        margin: 0;
+      }
+      
+      ul {
+        display: flex;
+        justify-content: flex-end;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      
+      li {
+        margin: 0 10px;
+      }
+      
+      a {
+        text-decoration: none;
+        color: #333;
+      }
+     
+      p{
+        font-size: larger;
+      }
+
+   
+
+     
+    </style>
+</head>
+<body>
+	<div class="container">
+		<nav>
+			<h1 class="product-name">ParkinSenze</h1>
+			<ul>
+				<li><a href="{% url 'index' %}">Home</a></li>
+			</ul>
+		</nav>
+		<div class="content">
+            <p>      Parkinson's disease is a neurodegenerative disorder that affects millions of people worldwide.
+                It is a chronic and progressive disease that affects movement, balance, and coordination,
+                causing symptoms such as tremors, rigidity, and slowness of movement. Early diagnosis and
+                treatment of PD are crucial for improving patients' quality of life, as well as slowing the
+                progression of the disease.</p>
+            <p>     Machine learning algorithms have been widely used in recent years to aid in the diagnosis and
+                management of PD. ParkinSenze aim to develop a machine learning model for early
+                detection of PD based on the analysis of various speech and motor-related features. The dataset
+                used in this project consists of a large number of recordings of voice and movement signals
+                from patients with and without PD.</p>
+            <p>     The ultimate goal is to develop a robust and accurate machine learning model
+                that can assist healthcare professionals in the early detection and management of PD, leading
+                to better patient outcomes. The web application allows patients to provide their demographic
+                information and voice samples, which are then analysed by the ML model. The web application
+                provides patients with a diagnosis and recommends further action based on the diagnosis.</p>
+            <p>     ParkinSenze aimed to develop a machine learning model for the detection of
+                Parkinson's disease. Various ML classifiers, such as Random Forest, SVM, Naive Bayes, and
+                Logistic Regression, on different datasets, including the UCI ML Parkinson's dataset and PPMI
+                dataset were experimented. This model achieved promising results with, which includes
+                significant improvement in accuracy over the existing methods. Additionally, a web application
+                that can aid physicians in diagnosing Parkinson's disease accurately and quickly was
+                developed.</p>
+            <p>     The web application provides an easy-to-use interface for physicians to diagnose Parkinson's
+                disease. The application takes input from the user in the form of patient data and generates a
+                diagnosis based on our machine learning model. The app can also provide an explanation of
+                the diagnosis to the physician. This web application can be a valuable tool for physicians in
+                accurately diagnosing Parkinson's disease, especially in regions where specialized care is not
+                available.</p>
+      </div>
+    </div>
+  </body>
+</html>

@@ -37,6 +37,8 @@ from sklearn import metrics
 def index(request):
     return render(request, 'index.html')
 
+def about(request):
+    return render(request, 'about.html')
 
 def dataset(request, type):
     return render(request, 'datasets.html', {"type": type})
@@ -85,10 +87,10 @@ def ml_(class_, csv_file, type_):
                 resp = models
                 resp_acc = models_acc
             else:
-                if y_pred[0] == '1':
+                if y_pred[0] == 1:
                     resp =  'Patient'
                 else:
-                    resp =  'Healthy Control'
+                    resp =  'Healthy'
         return resp, resp_acc
 
     elif class_ == "spiral_handpd":
@@ -136,10 +138,10 @@ def ml_(class_, csv_file, type_):
             resp1 =  models
             resp_acc1 = models_acc
         else:
-            if y_pred[0] == '2':
+            if y_pred[0] == 2:
                 resp1 =  'Patient'
             else:
-                resp1 =  'Healthy Control'
+                resp1 =  'Healthy'
 
         return resp1,resp_acc1
 
@@ -185,10 +187,10 @@ def ml_(class_, csv_file, type_):
             resp2 =  models
             resp_acc2 = models_acc
         else:
-            if y_pred[0] == '1':
+            if y_pred[0] == 1:
                 resp2 =  'Patient'
             else:
-                resp2 =  'Healthy Control'
+                resp2 =  'Healthy'
 
         return resp2,resp_acc2
 
@@ -226,10 +228,10 @@ def ml_(class_, csv_file, type_):
             resp3 =  models
             resp_acc3 = models_acc
         else:
-            if y_pred[0] == '2':
+            if y_pred[0] == 2:
                 resp3 =  'Patient'
             else:
-                resp3 =  'Healthy Control'
+                resp3 =  'Healthy'
 
         return resp3, resp_acc3
 
@@ -267,10 +269,11 @@ def ml_(class_, csv_file, type_):
             resp4 =  models
             resp_acc4 = models_acc
         else:
-            if y_pred[0] == '1':
+            print(y_pred[0])
+            if y_pred[0] == 1:
                 resp4 =  'Patient'
             else:
-                resp4 =  'Healthy Control'
+                resp4 =  'Healthy'
 
         return resp4, resp_acc4
 
